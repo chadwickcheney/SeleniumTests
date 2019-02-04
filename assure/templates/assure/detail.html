@@ -1,0 +1,8 @@
+
+<h1>{{ site.url }}</h1>
+<ul>
+{% for pilot in site.pilot_set.all %}
+    <li>{{ pilot.viewport_duration }}</li>
+    <li>{{ pilot.viewport_json }}</li>
+{% endfor %}
+</ul>

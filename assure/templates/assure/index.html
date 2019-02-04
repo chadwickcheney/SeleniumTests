@@ -1,0 +1,11 @@
+Sites
+{% if latest_site_list %}
+    <ul>
+    {% for site in latest_site_list %}
+    <li><a href="{% url 'detail' site.id %}">{{ site.url }}</a></li>
+
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No site reports are available.</p>
+{% endif %}
