@@ -1,11 +1,43 @@
-Sites
-{% if latest_site_list %}
-    <ul>
-    {% for site in latest_site_list %}
-    <li><a href="{% url 'detail' site.id %}">{{ site.url }}</a></li>
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+    <h1>Sites</h1>
+    <div class="add report">
+        {% if form %}
+         <div class="column is-offset-4 is-4">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="field has-addons">
+                        <div class="control is-expanded">
+                            {{ form.url }}
+                        </div>
+                        <div class="control">
+                            <button type="submit" class="button is-info">
+                                Url Address
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        {% endif %}
+    </div>
+    <h1>Pilot Reports</h1>
+    <div class="pilot report">
+        {% if latest_site_list %}
+            <ul>
+            {% for site in latest_site_list %}
+                <li><a href="{% url 'assure:detail' site.id %}">{{ site.url }}</a></li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>No site reports are available.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
 
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No site reports are available.</p>
-{% endif %}
+
+
+
