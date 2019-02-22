@@ -1,0 +1,73 @@
+body{
+  max-width: 800px;
+  margin: auto;
+  background-color: #e5e5e5;
+}
+
+.content{
+  background-color: #fff;
+  padding: 15px;
+}
+
+/*Pilot Reports*/
+.navbar ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+.navbar li {
+  float: left;
+}
+
+.navbar li, .navbar a{
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+`
+.navbar li, .navbar a:hover {
+  background-color: #111;
+}
+
+.navbar h1{
+  color: #333;
+}
+/*Pilot Reports*/
+.reports ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+}
+
+.reports li {
+  float: left;
+}
+
+.reports li, .reports a{
+  display: block;
+  color: #444444;
+  text-align: left;
+  padding: 5px 7px;
+  text-decoration: none;
+}
+
+.reports li, .reports a:hover {
+  background-color: #fff;
+}
+
+.reports h1{
+  color: #333;
+}
+
+.input {
+  display: flex;
+}

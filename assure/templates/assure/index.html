@@ -1,43 +1,50 @@
+{% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <link rel="stylesheet" type="text/css" href="{% static 'assure/style.css' %}">
 </head>
 <body>
-    <h1>Sites</h1>
-    <div class="add report">
-        {% if form %}
-         <div class="column is-offset-4 is-4">
-                <form method="post">
-                    {% csrf_token %}
-                    <div class="field has-addons">
-                        <div class="control is-expanded">
-                            {{ form.url }}
-                        </div>
-                        <div class="control">
-                            <button type="submit" class="button is-info">
-                                Url Address
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        {% endif %}
+    <div class="navbar">
+      <ul>
+        <li><a href="{% url 'assure:index' %}">Home</a></li>
+        <li><a href="">Link1</a></li>
+        <li><a href="">Link2</a></li>
+      </ul>
     </div>
-    <h1>Pilot Reports</h1>
-    <div class="pilot report">
-        {% if latest_site_list %}
-            <ul>
-            {% for site in latest_site_list %}
-                <li><a href="{% url 'assure:detail' site.id %}">{{ site.url }}</a></li>
-            {% endfor %}
-            </ul>
-        {% else %}
-            <p>No site reports are available.</p>
-        {% endif %}
-    </div>
+    <div class="content">
+      <div class="add">
+        <h1>Sites</h1>
+          {% if form %}
+           <div class="address">
+                  <form method="post">
+                      {% csrf_token %}
+                      <div class="input">
+                          <div class="control is-expanded">
+                              {{ form.url }}
+                          </div>
+                          <div class="control">
+                              <button type="submit" class="button is-info">
+                                  run report
+                              </button>
+                          </div>
+                      </div>
+                  </form>
+              </div>
+          {% endif %}
+      </div>
+      <div class="reports">
+        <h1>Pilot Reports</h1>
+          {% if latest_site_list %}
+              <ul>
+              {% for site in latest_site_list %}
+                  <li><a href="{% url 'assure:detail' site.id %}">{{ site.url }}</a></li>
+              {% endfor %}
+              </ul>
+          {% else %}
+              <p>No site reports are available.</p>
+          {% endif %}
+      </div>
+  </div
 </body>
 </html>
-
-
-
-

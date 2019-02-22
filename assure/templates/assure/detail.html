@@ -1,4 +1,29 @@
-Working on Pilot tests
-Results will be posted live on this page
-
-{{ site.url }}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'assure/style.css' %}">
+</head>
+<body>
+  <div class="navbar">
+    <ul>
+      <li><a href="{% url 'assure:index' %}">Home</a></li>
+      <li><a href="">Link1</a></li>
+      <li><a href="">Link2</a></li>
+    </ul>
+  </div>
+  <div class="content">
+    {% if latest_pilot_reports %}
+      <ul>
+        {% for report in latest_pilot_reports %}
+          <li>{% report.name %}</li>
+          <li>{% report.status %}</li>
+            {% if report.details %}
+              <li>{% report.details %}</li>
+            {%% endif %}
+        {% enfor %}
+      </ul>
+    {% endif %}
+  </div>
+</body>
+</html>

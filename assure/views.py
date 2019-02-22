@@ -14,6 +14,9 @@ class IndexView(generic.ListView):
     form_class = PilotForm
     model = Site
 
+    def __init__(self):
+        self.creed = None
+
     def get_queryset(self):
         """Return the last five published sites."""
         return Site.objects.order_by('-pub_date')[:5]
@@ -40,7 +43,6 @@ class IndexView(generic.ListView):
                 site.save()
                 return HttpResponseRedirect(reverse('assure:detail', args=(site.id,)))
 
-        print(site.id)
         return HttpResponseRedirect(reverse('assure:detail', args=(site.id,)))
 
         #return self.render_to_response(self.get_context_data(context_object_name=self.context_object_name, form=form))
@@ -60,7 +62,6 @@ class IndexView(generic.ListView):
 class DetailView(generic.DetailView):
     model = Site
     template_name = 'assure/detail.html'
-
 
 class ResultsView(generic.DetailView):
     model = Site
