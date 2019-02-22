@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.views import generic
 from .forms import PilotForm
 from .models import Site, Pilot, Comment
-
+from .src import creed
 import datetime
 
 class IndexView(generic.ListView):
@@ -15,7 +15,7 @@ class IndexView(generic.ListView):
     model = Site
 
     def __init__(self):
-        self.creed = None
+        self.creed = creed.Creed()
 
     def get_queryset(self):
         """Return the last five published sites."""
@@ -42,6 +42,8 @@ class IndexView(generic.ListView):
                 site = Site(url=url,pub_date=datetime.datetime.now())
                 site.save()
                 return HttpResponseRedirect(reverse('assure:detail', args=(site.id,)))
+            finally:
+                self.creed.test_units()
 
         return HttpResponseRedirect(reverse('assure:detail', args=(site.id,)))
 
