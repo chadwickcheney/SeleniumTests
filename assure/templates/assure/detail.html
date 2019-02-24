@@ -13,16 +13,12 @@
     </ul>
   </div>
   <div class="content">
-    {% if latest_pilot_reports %}
+    {% if latest_report %}
       <ul>
-        {% for report in latest_pilot_reports %}
-          <li>{% report.name %}</li>
-          <li>{% report.status %}</li>
-            {% if report.details %}
-              <li>{% report.details %}</li>
-            {%% endif %}
-        {% enfor %}
+        <li>{{ latest_report.site }}</li>
       </ul>
+    {% else %}
+      <p>no pilot reports</p>
     {% endif %}
   </div>
 </body>

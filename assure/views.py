@@ -4,7 +4,8 @@ from django.urls import reverse
 from django.views import generic
 from .forms import PilotForm
 from .models import Site, Pilot, Comment
-from .src import creed
+from . import creed
+from . import webster
 import datetime
 
 class IndexView(generic.ListView):
@@ -15,7 +16,8 @@ class IndexView(generic.ListView):
     model = Site
 
     def __init__(self):
-        self.creed = creed.Creed()
+        self.webster = webster.Webster()
+        self.creed = creed.Main(self.webster)
 
     def get_queryset(self):
         """Return the last five published sites."""
@@ -30,6 +32,7 @@ class IndexView(generic.ListView):
     def post(self, request):
         if request.method == 'POST':
             site=''
+            pilot=''
             url=''
             form = PilotForm(request.POST)
             if form.is_valid():
@@ -41,9 +44,18 @@ class IndexView(generic.ListView):
             except Site.DoesNotExist:
                 site = Site(url=url,pub_date=datetime.datetime.now())
                 site.save()
-                return HttpResponseRedirect(reverse('assure:detail', args=(site.id,)))
             finally:
-                self.creed.test_units()
+                print("starting tests")
+                try:
+                    pilot = Pilot.objects.get(site=site)
+                    print(pilot.site)
+                    print(pilot.current_rating)
+                except Pilot.DoesNotExist:
+                    pilot = Pilot(site=site,current_rating=9)
+                    print(pilot.site)
+                    print(pilot.current_rating)
+                    pilot.save()
+                #self.creed.test_units()
 
         return HttpResponseRedirect(reverse('assure:detail', args=(site.id,)))
 
@@ -64,6 +76,22 @@ class IndexView(generic.ListView):
 class DetailView(generic.DetailView):
     model = Site
     template_name = 'assure/detail.html'
+    context_object_name = 'latest_report'
+
+    def get_context_data(self, **kwargs):
+        print("site:")
+        print(kwargs['object'])
+        context = super().get_context_data(**kwargs)
+        site=Site.objects.get(url__contains=kwargs['object'])
+        print(Site.objects.all())
+        print(Pilot.objects.all())
+        pilot = Pilot.objects.get(site=site)
+        context['latest_report'] = pilot
+        return context
+
+'''def detail(request, site_id):
+    pilot = get_object_or_404(Pilot, pk=site_id)
+    return render(request, 'assure/detail.html', {'pilot':pilot})'''
 
 class ResultsView(generic.DetailView):
     model = Site
