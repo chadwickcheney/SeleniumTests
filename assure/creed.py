@@ -15,22 +15,23 @@ class Main:
         self.webster=webster
         self.web=None
 
-    def test_units(self):
-        self.web=w.Web(tier=self.tier,webster=self.webster,debug=self.debug)
-        #viewport test
-        self.viewport=vp.ViewPort(tier=self.tier,webster=self.webster,debug=self.debug,web=self.web)
-        self.debug.press(feed='Viewport Test',tier=self.tier)
-        test = self.viewport.unit_test()
+    def test_units(self,test=False):
+        return_dictionary={}
+        if test:
+            return True
+        else:
+            #Site Tests
+            self.web=w.Web(tier=self.tier,webster=self.webster,debug=self.debug)
+            self.site_tests=self.web.unit_test()
 
-        node = self.web.linked_list_all_elements.cur_node
-        while node:
-            if node.pilot:
-                self.web.linked_list_all_elements.print_specifications(node)
-                self.web.scroll_element_view(node.selenium_object)
-                self.web.highlight(node.selenium_object)
-            node = node.next
+            #Viewport Tests
+            self.viewport=vp.ViewPort(tier=self.tier,webster=self.webster,debug=self.debug,web=self.web)
+            self.viewport_tests=self.viewport.unit_test()
 
-        return test
+            creed_dictionary={}
+            creed_dictionary.update({"Site":self.site_tests})
+            creed_dictionary.update({"Viewport":self.viewport_tests})
+            return creed_dictionary
 
     def debug_error(self,error):
         self.debug.press(feed=error,error=True,tier=0)

@@ -19,8 +19,8 @@ class Pilot(models.Model):
     site = models.ForeignKey(Site, on_delete=models.CASCADE)
     current_rating = models.IntegerField()
 
-    viewport_result = models.BooleanField(default=True)
-    #viewport_json = JSONField()
+    viewport_json = JSONField(default=[])
+    site_json = JSONField(default=[])
 
     def __str__(self):
         return ("tests object")

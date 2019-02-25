@@ -55,7 +55,7 @@ class linked_list:
 
                     else:
                         self.debug.press(feed=node.pilot,trace=True)
-                        input('handle this type please')
+                        input('handle this type please\n>>>')
 
                     print(pilot_reports)
                     node.pilot=pilot_reports

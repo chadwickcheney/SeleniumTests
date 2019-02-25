@@ -10,8 +10,7 @@ class Webster:
 
         #self.url='https://www.enginecommerce.com/'
         #self.url='https://www.controlledchaoshair.com/'
-        #self.url='http://qualassure.org/#/'
-        self.url='https://www.beardedgoat.com'
+        self.url='http://qualassure.org/#/'
 
     def get_debug_prompt_parameter(self, function_to_call, question_to_ask):
         if isinstance(function_to_call, list) and isinstance(question_to_ask, list):

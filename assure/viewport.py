@@ -15,22 +15,35 @@ class ViewPort:
         #set local browser for viewport tests
         self.web=web
 
+        #Test Dictionary
+        self.test_dictionary={}
+
     #COMMENCE TEST
     def unit_test(self):
-        test_bool=True
+        #self.web.linked_list_all_elements.add_report(node.selenium_object,pilot)
         node=self.web.linked_list_all_elements.cur_node
-        tests = [self.is_element_obstructed,self.is_element_off_page_partial,self.is_element_off_page_entirely,self.is_element_text_blocked,self.viewport_meta_tag_exists]
+        tests = [self.is_element_obstructed,self.is_element_text_blocked]
         while node:
             for test in tests:
+                self.web.linked_list_all_elements.print_specifications(node)
                 if test(node):
-                    test_bool = True
-                    pilot=test.__name__
-                    self.web.linked_list_all_elements.add_report(node.selenium_object,pilot)
-                    '''if test.__name__ == "viewport_meta_tag_exists":
-                        tests.remove(test)'''
+                    value=None
+                    key=node.element_dictionary['attribute_dictionary']['outerHTML']
+                    if key in self.test_dictionary.keys():
+                        if isinstance(self.test_dictionary[key], list):
+                            value=self.test_dictionary[key]
+                            value.append(test.__name__)
+
+                        elif isinstance(self.test_dictionary[key], str):
+                            value=[]
+                            value.append(self.test_dictionary[key])
+                            value.append(test.__name__)
+                    else:
+                        value=test.__name__
+                    self.test_dictionary.update({key:value})
             node=node.next
 
-        return test_bool
+        return self.test_dictionary
 
     def is_element_obstructed(self,node):
         if (    (self.is_element_off_page_partial(node) and not self.is_element_off_page_entirely(node)) and
@@ -67,9 +80,4 @@ class ViewPort:
             return False
 
     def is_element_text_blocked(self, node):
-        return False
-
-    def viewport_meta_tag_exists(self, node):
-        if 'meta name="viewport" content="width=device-width, initial-scale' in node.element_dictionary['attribute_dictionary']['outerHTML']:
-            return True
-        return False
+        return ("in development")

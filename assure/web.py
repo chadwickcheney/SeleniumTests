@@ -90,6 +90,16 @@ class Web:
         #get all elements on url page
         self.get_all_elements_on_page()
 
+        #site tests
+        self.test_dictionary={}
+
+    #COMMENCE TEST
+    def unit_test(self):
+        tests = [self.viewport_meta_tag_exists,self.facebook_pixel_exists]
+        for test in tests:
+            self.test_dictionary.update({test.__name__:test()})
+        return self.test_dictionary
+
     def get_client_specifications(self):
         if self.chrome:
             return self.chrome.get_client_specifications()
@@ -231,7 +241,15 @@ class Web:
     def determine_xpath(self, element):
         tag_names=[]
         while True:
+            elements = self.ask_parent_if_i_have_siblings(element)
+            index=0
+            for e in elements:
+                if element==e:
+                    break
+                index+=1
+
             tag_names.append(element.tag_name)
+            tag_names.append(index)
             element = self.get_parent_of_element(element)
             if element.tag_name == 'html':
                 tag_names.append(element.tag_name)
@@ -302,3 +320,17 @@ class Web:
     def ask_parent_if_i_have_siblings(self,element):
         parent_element=self.get_parent_of_element(element)
         return parent_element.find_elements_by_xpath('.//*')
+
+    def viewport_meta_tag_exists(self):
+        elements = self.driver.find_elements_by_xpath("//*[not(*)]")
+        for element in elements:
+            if 'meta name="viewport" content="width=device-width, initial-scale' in element.get_attribute('outerHTML'):
+                return True
+        return False
+
+    def facebook_pixel_exists(self):
+        elements = self.driver.find_elements_by_xpath("//*[not(*)]")
+        for element in elements:
+            if 'https://connect.facebook.net/' in str(element.get_attribute('outerHTML')):
+                return True
+        return False
