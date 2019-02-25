@@ -20,7 +20,7 @@ class Main:
         #viewport test
         self.viewport=vp.ViewPort(tier=self.tier,webster=self.webster,debug=self.debug,web=self.web)
         self.debug.press(feed='Viewport Test',tier=self.tier)
-        self.viewport.unit_test()
+        test = self.viewport.unit_test()
 
         node = self.web.linked_list_all_elements.cur_node
         while node:
@@ -28,7 +28,9 @@ class Main:
                 self.web.linked_list_all_elements.print_specifications(node)
                 self.web.scroll_element_view(node.selenium_object)
                 self.web.highlight(node.selenium_object)
-                input('>>>')
             node = node.next
+
+        return test
+
     def debug_error(self,error):
         self.debug.press(feed=error,error=True,tier=0)

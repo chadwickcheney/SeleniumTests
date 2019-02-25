@@ -19,9 +19,8 @@ class Pilot(models.Model):
     site = models.ForeignKey(Site, on_delete=models.CASCADE)
     current_rating = models.IntegerField()
 
-    '''viewport_result = models.BooleanField()
-    viewport_duration = models.DurationField()
-    viewport_json = JSONField()'''
+    viewport_result = models.BooleanField(default=True)
+    #viewport_json = JSONField()
 
     def __str__(self):
         return ("tests object")
@@ -32,4 +31,4 @@ class Comment(models.Model):
     rating = models.IntegerField(
         default=1,
         validators=[MaxValueValidator(5), MinValueValidator(-1)]
-     )
+        )

@@ -51,7 +51,7 @@ class IndexView(generic.ListView):
                     print(pilot.site)
                     print(pilot.current_rating)
                 except Pilot.DoesNotExist:
-                    pilot = Pilot(site=site,current_rating=9)
+                    pilot = Pilot(site=site,current_rating=9,viewport_result=self.creed.test_units())
                     print(pilot.site)
                     print(pilot.current_rating)
                     pilot.save()

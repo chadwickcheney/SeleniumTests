@@ -17,16 +17,20 @@ class ViewPort:
 
     #COMMENCE TEST
     def unit_test(self):
+        test_bool=True
         node=self.web.linked_list_all_elements.cur_node
         tests = [self.is_element_obstructed,self.is_element_off_page_partial,self.is_element_off_page_entirely,self.is_element_text_blocked,self.viewport_meta_tag_exists]
         while node:
             for test in tests:
                 if test(node):
+                    test_bool = True
                     pilot=test.__name__
                     self.web.linked_list_all_elements.add_report(node.selenium_object,pilot)
                     '''if test.__name__ == "viewport_meta_tag_exists":
                         tests.remove(test)'''
             node=node.next
+
+        return test_bool
 
     def is_element_obstructed(self,node):
         if (    (self.is_element_off_page_partial(node) and not self.is_element_off_page_entirely(node)) and
