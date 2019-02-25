@@ -15,7 +15,8 @@ class Main:
         self.webster=webster
         self.web=None
 
-    def test_units(self,test=False):
+    def test_units(self,url,test=False):
+        self.webster.url = url
         return_dictionary={}
         if test:
             return True
@@ -29,8 +30,8 @@ class Main:
             self.viewport_tests=self.viewport.unit_test()
 
             creed_dictionary={}
-            creed_dictionary.update({"Site":self.site_tests})
-            creed_dictionary.update({"Viewport":self.viewport_tests})
+            creed_dictionary.update({"site":self.site_tests})
+            creed_dictionary.update({"viewport":self.viewport_tests})
             return creed_dictionary
 
     def debug_error(self,error):

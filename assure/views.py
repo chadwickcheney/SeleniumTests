@@ -51,11 +51,31 @@ class IndexView(generic.ListView):
                     print(pilot.site)
                     print(pilot.current_rating)
                 except Pilot.DoesNotExist:
-                    dictionary = self.creed.test_units(test=False)
-                    pilot = Pilot(site=site,current_rating=9,viewport_json=dictionary)
+                    dictionary = self.creed.test_units(url=url)
+                    '''s_dictionary = {
+                        'Site':
+                        {
+                            'viewport_meta_tag_exists': False,
+                            'facebook_pixel_exists': False
+                        }}
+
+                    vp_dictionary = {
+                        'Viewport':
+                        {
+                            '<a action="replace" href="#/privacy">Privacy Statement</a>': 'is_element_text_blocked',
+                            '<h6>Dallas Weather: 8.85 F</h6>': 'is_element_text_blocked',
+                            '<p>© 2019 Site is Designed by Abhishek Duggal</p>': 'is_element_text_blocked',
+                            '<p>This site is fictional! Made only for demonstration and learning purposes</p>': 'is_element_text_blocked',
+                            '<br>': 'is_element_text_blocked',
+                            '<img src="/static/media/duggal_logo.b73926ee.png" alt="personal_logo" width="60px" height="50px">': 'is_element_text_blocked',
+                            '<img src="https://image.freepik.com/free-vector/professional-business-meeting_23-2147553518.jpg" alt="https://banner2.kisspng.com/20180411/jqw/kisspng-professional-business-organization-job-meeting-the-boss-baby-5acdb3967aa979.6219869415234302945024.jpg">': ['is_element_obstructed', 'is_element_text_blocked']
+                        }}'''
+
+                    pilot = Pilot(site=site,current_rating=9,viewport_json=dictionary['viewport'],site_json=dictionary['site'])
+                    print(dictionary['viewport'])
+                    print(dictionary['site'])
                     print(pilot.site)
                     print(pilot.current_rating)
-
                     pilot.save()
                 #self.creed.test_units()
 

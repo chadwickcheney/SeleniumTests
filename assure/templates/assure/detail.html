@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" type="text/css" href="{% static 'assure/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static "assure/style.css" %}">
 </head>
 <body>
   <div class="navbar">
@@ -14,14 +14,43 @@
   </div>
   <div class="content">
     {% if latest_report %}
-      <ul>
-        <li>{{ latest_report.site }}</li>
-        <li>{{ latest_report.current_rating }}</li>
-        <li>{{ latest_report.site_json }}</li>
-        <li>{{ latest_report.viewport_json }}</li>
-      </ul>
+    <div class="shadow">
+      <div class="content">
+          <p>pilot report for {{ latest_report.site }}</p>
+      </div>
+    </div>
+    <h1>Viewport Test Results</h1>
+      {% if latest_report.viewport.viewport_json.items %}
+        {% for key, value in latest_report.viewport_json.items %}
+        <div class="row results">
+          <div class="left">
+            <code>{{ key }}</code>
+          </div>
+        <div class="right">
+          <h3>{{ value }}</h3>
+        </div>
+        <br>
+        </div>
+        {% endfor %}
+      {% else %}
+        <p>No mobile viewport issues</p>
+      {% endif %}
+
+      <h1>Site Test Results</h1>
+      {% for key, value in latest_report.site_json.items %}
+      <div class="row results">
+        <div class="left">
+          <h2>{{ key }}</h2>
+        </div>
+        <div class="right">
+          <h3>{{ value }}</h3>
+        </div>
+        <br>
+      </div>
+      {% endfor %}
+
     {% else %}
-      <p>no pilot reports</p>
+      <p>No pilot reports</p>
     {% endif %}
   </div>
 </body>

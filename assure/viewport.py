@@ -20,6 +20,8 @@ class ViewPort:
 
     #COMMENCE TEST
     def unit_test(self):
+        print("viewport tests")
+
         #self.web.linked_list_all_elements.add_report(node.selenium_object,pilot)
         node=self.web.linked_list_all_elements.cur_node
         tests = [self.is_element_obstructed,self.is_element_text_blocked]
@@ -28,7 +30,7 @@ class ViewPort:
                 self.web.linked_list_all_elements.print_specifications(node)
                 if test(node):
                     value=None
-                    key=node.element_dictionary['attribute_dictionary']['outerHTML']
+                    key=node.element_dictionary['attribute_dictionary']['outerHTML'][:50]
                     if key in self.test_dictionary.keys():
                         if isinstance(self.test_dictionary[key], list):
                             value=self.test_dictionary[key]
@@ -80,4 +82,4 @@ class ViewPort:
             return False
 
     def is_element_text_blocked(self, node):
-        return ("in development")
+        return False

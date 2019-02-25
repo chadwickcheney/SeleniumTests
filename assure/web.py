@@ -74,6 +74,7 @@ class Web:
 
         #go to initial url
         self.go_to(self.url)
+        print("website retrieved")
 
         #cookies
         if self.ster.cookies_set:
@@ -85,16 +86,21 @@ class Web:
                 self.go_to(self.url)
 
         #local storage
+        print("linked list elements")
         self.linked_list_all_elements=html_element.linked_list(self.debug)
+        print("linked list retrived")
 
         #get all elements on url page
+        print("getting elements")
         self.get_all_elements_on_page()
+        print("elements retrieved")
 
         #site tests
         self.test_dictionary={}
 
     #COMMENCE TEST
     def unit_test(self):
+        print("web tests")
         tests = [self.viewport_meta_tag_exists,self.facebook_pixel_exists]
         for test in tests:
             self.test_dictionary.update({test.__name__:test()})
@@ -145,6 +151,7 @@ class Web:
     def get_all_elements_on_page(self):
         elements = self.driver.find_elements_by_xpath("//*[not(*)]")
         for element in elements:
+            self.scroll_element_view(element)
             if not element.tag_name in self.avoid_tag_names:
                 self.linked_list_all_elements.add_node(element,element_dictionary=self.get_element_dictionary(element))
 
@@ -324,6 +331,7 @@ class Web:
     def viewport_meta_tag_exists(self):
         elements = self.driver.find_elements_by_xpath("//*[not(*)]")
         for element in elements:
+            self.scroll_element_view(element)
             if 'meta name="viewport" content="width=device-width, initial-scale' in element.get_attribute('outerHTML'):
                 return True
         return False
@@ -331,6 +339,7 @@ class Web:
     def facebook_pixel_exists(self):
         elements = self.driver.find_elements_by_xpath("//*[not(*)]")
         for element in elements:
+            self.scroll_element_view(element)
             if 'https://connect.facebook.net/' in str(element.get_attribute('outerHTML')):
                 return True
         return False
