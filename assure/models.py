@@ -18,6 +18,7 @@ class Site(models.Model):
 class Pilot(models.Model):
     site = models.ForeignKey(Site, on_delete=models.CASCADE)
     current_rating = models.IntegerField()
+    pub_date = models.DateTimeField('date published')
 
     viewport_json = JSONField(default=[])
     site_json = JSONField(default=[])

@@ -12,46 +12,69 @@
       <li><a href="">Link2</a></li>
     </ul>
   </div>
-  <div class="content">
-    {% if latest_report %}
-    <div class="shadow">
-      <div class="content">
-          <p>pilot report for {{ latest_report.site }}</p>
-      </div>
-    </div>
-    <h1>Viewport Test Results</h1>
-      {% if latest_report.viewport.viewport_json.items %}
-        {% for key, value in latest_report.viewport_json.items %}
-        <div class="row results">
-          <div class="left">
-            <code>{{ key }}</code>
+    <div class="content">
+      <div class="details">
+          {% if latest_report %}
+          <div class="content row">
+            <div class="left">
+              <p>pilot report for {{ latest_report.site }}</p>
+            </div>
+            <div class="right">
+              {% if form %}
+               <div class="address">
+                      <form method="post">
+                          {% csrf_token %}
+                          <div class="input">
+                              <div class="control">
+                                  <button type="submit" class="button is-info">
+                                      update report
+                                  </button>
+                              </div>
+                          </div>
+                      </form>
+                  </div>
+              {% endif %}
+            </div>
           </div>
-        <div class="right">
-          <h3>{{ value }}</h3>
+          {% if latest_report.viewport_json.items %}
+          <div class="table100 ver5 m-b-110">
+            <table class="table101" data-veritabl="ver5">
+              <caption class="table100">Viewport Test Results</caption>
+              <tr class="row100">
+                <th>HTML Code</th>
+                <th>Tests Failed</th>
+              </tr>
+            {% for key, value in latest_report.viewport_json.items %}
+                <tr class="row100">
+                  <td class="column100"><code>{{ key }}</code></td>
+                  <td class="column100">{{ value }}</td>
+                </tr>
+            {% endfor %}
+          </table>
         </div>
-        <br>
-        </div>
-        {% endfor %}
-      {% else %}
-        <p>No mobile viewport issues</p>
-      {% endif %}
-
-      <h1>Site Test Results</h1>
-      {% for key, value in latest_report.site_json.items %}
-      <div class="row results">
-        <div class="left">
-          <h2>{{ key }}</h2>
-        </div>
-        <div class="right">
-          <h3>{{ value }}</h3>
-        </div>
-        <br>
+          {% else %}
+            <p>No mobile viewport issues</p>
+          {% endif %}
+        <br><br>
+          <div class="table100 ver5 m-b-110">
+            <table class="table101" data-veritabl="ver5">
+              <caption class"table100">Site Test Results</caption>
+              <tr class="row100">
+                <th>Test</th>
+                <th>Status</th>
+              </tr>
+          {% for key, value in latest_report.site_json.items %}
+              <tr class="row100">
+                <td class="column100"><code>{{ key }}</code></td>
+                <td class="column100">{{ value }}</td>
+              </tr>
+          {% endfor %}
+        </table>
       </div>
-      {% endfor %}
-
-    {% else %}
-      <p>No pilot reports</p>
-    {% endif %}
+      {% else %}
+        <p>No pilot reports</p>
+      {% endif %}
+    </div>
   </div>
 </body>
 </html>

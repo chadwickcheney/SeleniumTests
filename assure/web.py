@@ -1,5 +1,6 @@
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.common.exceptions import StaleElementReferenceException
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait
@@ -151,10 +152,15 @@ class Web:
     def get_all_elements_on_page(self):
         elements = self.driver.find_elements_by_xpath("//*[not(*)]")
         for element in elements:
-            self.scroll_element_view(element)
-            if not element.tag_name in self.avoid_tag_names:
-                self.linked_list_all_elements.add_node(element,element_dictionary=self.get_element_dictionary(element))
-
+            try:
+                print(element)
+                print(element.get_attribute('outerHTML'))
+                if not element.tag_name in self.avoid_tag_names:
+                    self.linked_list_all_elements.add_node(element,element_dictionary=self.get_element_dictionary(element))
+            except StaleElementReferenceException:
+                pass
+            except NoSuchElementException:
+                pass
         self.linked_list_all_elements.print_specifications()
 
     def is_retrieved_value_ambigious(self, retrieved_value):
@@ -212,8 +218,6 @@ class Web:
         attribute_dict={}
         element_from_tuple=False
         aria_labelledby_dict={}
-        #scroll to element
-        self.scroll_element_view(element)
 
         #specs dictionary
         specifications_dictionary = self.driver.execute_script("return arguments[0].getBoundingClientRect()",element)

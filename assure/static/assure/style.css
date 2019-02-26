@@ -2,11 +2,13 @@ body{
   max-width: 800px;
   margin: auto;
   background-color: #e5e5e5;
+  font-family: "Courier New";
 }
 
 .content{
   background-color: #fff;
   padding: 15px;
+  align-items: center;
 }
 
 /*Navbar*/
@@ -72,16 +74,6 @@ body{
   display: flex;
 }
 
-.shadow{
-  box-shadow:inset 0 -15px 5px -16px #000;
-}
-
-.shadow .content{
-  position: relative; /* This protects the inner element from being blurred */
-  background-color: #fff;
-  padding: 20px;
-}
-
 .row{
   display: flex;
 }
@@ -92,6 +84,7 @@ body{
 
 .right{
   width: 35%;
+  float: right;
 }
 
 .results h1{
@@ -100,4 +93,80 @@ body{
 
 .url h1{
   font-size: 1.25em;
+}
+
+.details{
+  margin: auto;
+  width: 700px;
+}
+
+/*==================================================================
+[ Ver5 ]*/
+.table100.ver5 tbody tr:nth-child(even) {
+  background-color: #e9faff;
+}
+
+.table101{
+  width: 100%;
+}
+
+.table100.ver5 td {
+  font-size: 14px;
+  color: #000;
+  line-height: 1.4;
+  position: relative;
+}
+
+.table100.ver5 th {
+  font-family: "Courier New";
+  font-size: 12px;
+  color: #fff;
+  line-height: 2.0;
+
+  background-color: #002933;
+}
+
+.table100.ver5 .row100:hover td {
+  color: #fe3e64;
+}
+
+.table100.ver5 .hov-column-ver5 {color: #fe3e64;}
+.table100.ver5 .hov-column-ver5::before {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  border-left: 1px solid #f2f2f2;
+  border-right: 1px solid #f2f2f2;
+}
+
+.table100.ver5 .hov-column-head-ver5 {
+  background-color: #1a3f48 !important;
+  color: #fe3e64;
+}
+
+.table100.ver5 .row100 td:hover {
+  color: #fe3e64;
+}
+
+.table100.ver5 .row100 td:hover:before {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  border: 1px solid #fe3e64;
+}
+
+.table100 caption{
+  text-transform: uppercase;
+  font-weight: 800;
+  color: #1a3f48;
 }
