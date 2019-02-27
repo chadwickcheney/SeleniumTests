@@ -66,9 +66,24 @@
           {% for key, value in latest_report.site_json.items %}
               <tr class="row100">
                 <td class="column100"><code>{{ key }}</code></td>
+
+                {% if value.items %}
+                <td>
+                  <table>
+                    {% for subkey, subvalue in value.items %}
+                    <tr>
+                      <td class="column100">{{ subkey }}</td>
+                      <td class="column100">{{ subvalue }}</td>
+                    </tr>
+                    {% endfor %}
+                  </table>
+                </td>
+                {% else %}
                 <td class="column100">{{ value }}</td>
+                {% endif %}
+
               </tr>
-          {% endfor %}
+              {% endfor %}
         </table>
       </div>
       {% else %}

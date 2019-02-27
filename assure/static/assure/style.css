@@ -1,5 +1,5 @@
 body{
-  max-width: 800px;
+  max-width: 750px;
   margin: auto;
   background-color: #e5e5e5;
   font-family: "Courier New";
@@ -17,7 +17,7 @@ body{
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: #333;
+  background-color: #1a3f48;
 }
 
 .navbar li {
@@ -72,6 +72,7 @@ body{
 
 .input {
   display: flex;
+  width: 500px;
 }
 
 .row{

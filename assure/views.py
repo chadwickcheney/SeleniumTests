@@ -7,6 +7,7 @@ from .models import Site, Pilot, Comment
 from . import creed
 from . import webster
 import datetime
+import traceback
 
 class IndexView(generic.ListView):
     template_name = 'assure/index.html'
@@ -37,28 +38,28 @@ class IndexView(generic.ListView):
             form = PilotForm(request.POST)
             if form.is_valid():
                 url,url_test = self.validate_url(request.POST.get('url'))
-                print(url)
-                print(url_test)
             try: #fails = site is new and requires a report
                 site = Site.objects.get(url__contains=url)
             except Site.DoesNotExist:
-                site = Site(url=url,pub_date=datetime.datetime.now())
+                site = Site(url=url,pub_date=datetime.datetime.now(),domain=url.split('.')[1])
                 site.save()
             finally:
-                print("starting tests")
                 try:
                     pilot = Pilot.objects.get(site=site)
-                    print(pilot.site)
-                    print(pilot.current_rating)
-                except Pilot.DoesNotExist:
-                    dictionary = self.creed.test_units(url=url)
-                    pilot = Pilot(site=site,current_rating=9,pub_date=datetime.datetime.now(),viewport_json=dictionary['viewport'],site_json=dictionary['site'])
-                    print(dictionary['viewport'])
-                    print(dictionary['site'])
-                    print(pilot.site)
-                    print(pilot.current_rating)
+                    dictionary = self.creed.test_units(url=site.url)
+                    pilot.pub_date=datetime.datetime.now()
+                    pilot.viewport_json=dictionary['viewport']
+                    pilot.site_json=dictionary['site']
                     pilot.save()
-                #self.creed.test_units()
+                except Pilot.DoesNotExist:
+                    try:
+                        dictionary = self.creed.test_units(url=url)
+                        pilot = Pilot(site=site,current_rating=9,pub_date=datetime.datetime.now(),viewport_json=dictionary['viewport'],site_json=dictionary['site'])
+                        pilot.save()
+                    except Exception as e:
+                        traceback.print_exc()
+                        self.creed.quit_driver()
+                        Site.objects.get(url__contains=url).delete()
 
         return HttpResponseRedirect(reverse('assure:detail', args=(site.id,)))
 
@@ -107,10 +108,27 @@ class DetailView(generic.DetailView):
             except Pilot.DoesNotExist:
                 pilot = Pilot(site=site)
             finally:
-                dictionary = self.creed.test_units(url=pilot.site.url)
-                pilot.viewport_json=dictionary['viewport']
-                pilot.site_json=dictionary['site']
-                pilot.save()
+                try:
+                    pilot = Pilot.objects.get(site=site)
+                    dictionary = self.creed.test_units(url=site.url)
+                    pilot.pub_date=datetime.datetime.now()
+                    pilot.viewport_json=dictionary['viewport']
+                    pilot.site_json=dictionary['site']
+                    pilot.save()
+                except Pilot.DoesNotExist:
+                    try:
+                        dictionary = self.creed.test_units(url=site.url)
+                        pilot = Pilot(site=site,
+                                current_rating=9,
+                                pub_date=datetime.datetime.now(),
+                                viewport_json=dictionary['viewport'],
+                                site_json=dictionary['site']
+                            )
+                        pilot.save()
+                    except Exception as e:
+                        traceback.print_exc()
+                        self.creed.quit_driver()
+                        Site.objects.get(url__contains=url).delete()
 
         return HttpResponseRedirect(reverse('assure:detail', args=(site.id,)))
 

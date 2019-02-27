@@ -24,9 +24,9 @@ class Web:
         self.driver=None
         self.viewport=None
         self.browser=None
-        self.ster=webster
-        self.desktop=self.ster.shared_dictionary['desktop']
-        self.chrome=self.ster.shared_dictionary['chrome']
+        self.webster=webster
+        self.desktop=self.webster.shared_dictionary['desktop']
+        self.chrome=self.webster.shared_dictionary['chrome']
         self.debug=debug
 
         #variables for element_dictionary
@@ -43,9 +43,6 @@ class Web:
         self.sibling_responsibilty_perform_function_format_response={
             'element_id':None,
         }
-
-        #modal test
-        self.modal = None
 
         #determine browser string for debugging
         if self.chrome:
@@ -71,41 +68,25 @@ class Web:
         self.client_width,self.client_height=self.get_client_specifications()
 
         #set url
-        self.url=self.ster.url
+        self.url=self.webster.url
 
         #go to initial url
         self.go_to(self.url)
-        print("website retrieved")
 
         #cookies
-        if self.ster.cookies_set:
+        if self.webster.cookies_set:
             self.session_id=webster.session_id
-            self.load_cookies,self.save_cookies=self.ster.cookies_set
+            self.load_cookies,self.save_cookies=self.webster.cookies_set
             self.cookies_file=str(self.url).split('.')[1]+"_"+str(self.session_id)+"_cookies.pkl"
             if self.load_cookies:
                 self.load_all_cookies(url=self.url)
                 self.go_to(self.url)
 
         #local storage
-        print("linked list elements")
         self.linked_list_all_elements=html_element.linked_list(self.debug)
-        print("linked list retrived")
 
         #get all elements on url page
-        print("getting elements")
         self.get_all_elements_on_page()
-        print("elements retrieved")
-
-        #site tests
-        self.test_dictionary={}
-
-    #COMMENCE TEST
-    def unit_test(self):
-        print("web tests")
-        tests = [self.viewport_meta_tag_exists,self.facebook_pixel_exists]
-        for test in tests:
-            self.test_dictionary.update({test.__name__:test()})
-        return self.test_dictionary
 
     def get_client_specifications(self):
         if self.chrome:
@@ -121,15 +102,14 @@ class Web:
             if option.get_attribute('value') == value:
                 select_element.select_by_visible_text(option.text)'''
 
-    def go_to(self, url): #check for modal
+    def go_to(self, url):
         self.driver.get(url)
-        def page_has_loaded():
+        '''def page_has_loaded():
             page_state = self.driver.execute_script(
                 'return document.readyState;'
             )
             return page_state == 'complete'
-        self.wait_for(page_has_loaded)
-        self.check_for_modal()
+        self.wait_for(page_has_loaded)'''
         self.debug.press(feed="{} has loaded successfully".format(url),tier=self.tier)
 
     def wait_for(self, condition_function):
@@ -153,8 +133,7 @@ class Web:
         elements = self.driver.find_elements_by_xpath("//*[not(*)]")
         for element in elements:
             try:
-                print(element)
-                print(element.get_attribute('outerHTML'))
+                self.scroll_element_view(element)
                 if not element.tag_name in self.avoid_tag_names:
                     self.linked_list_all_elements.add_node(element,element_dictionary=self.get_element_dictionary(element))
             except StaleElementReferenceException:
@@ -286,12 +265,12 @@ class Web:
                     element, original_style
                 )
         apply_new_style("background: red; border: 10px solid blue;")
-        dictionary=self.ster.get_debug_prompt_parameter(
+        dictionary=self.webster.get_debug_prompt_parameter(
                 function_to_call=apply_original_style,
                 question_to_ask="Error? (True of False)",
             )
         dictionary=self.debug.press(feed=dictionary, prompt=True,tier=self.tier)
-        self.ster.perform_response(dictionary=dictionary)
+        self.webster.perform_response(dictionary=dictionary)
 
     def replace_element(self, element):
         next_sibling = driver.execute_script("""
@@ -325,25 +304,6 @@ class Web:
                 file.close()
                 self.save_all_cookies()
 
-    def check_for_modal(self):
-        return sites.controlledchaorhair_modal(self.driver)
-
     def ask_parent_if_i_have_siblings(self,element):
         parent_element=self.get_parent_of_element(element)
         return parent_element.find_elements_by_xpath('.//*')
-
-    def viewport_meta_tag_exists(self):
-        elements = self.driver.find_elements_by_xpath("//*[not(*)]")
-        for element in elements:
-            self.scroll_element_view(element)
-            if 'meta name="viewport" content="width=device-width, initial-scale' in element.get_attribute('outerHTML'):
-                return True
-        return False
-
-    def facebook_pixel_exists(self):
-        elements = self.driver.find_elements_by_xpath("//*[not(*)]")
-        for element in elements:
-            self.scroll_element_view(element)
-            if 'https://connect.facebook.net/' in str(element.get_attribute('outerHTML')):
-                return True
-        return False

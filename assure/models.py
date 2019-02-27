@@ -6,8 +6,8 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 class Site(models.Model):
     url = models.URLField(max_length=200)
-    #url = models.CharField(max_length=200)
     pub_date = models.DateTimeField('date published')
+    domain = models.CharField(max_length=20,default='a')
 
     def __str__(self):
         return self.url
