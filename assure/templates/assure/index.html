@@ -13,24 +13,26 @@
       </ul>
     </div>
     <div class="content">
+    <h1>Sites</h1>
       <div class="add">
-        <h1>Sites</h1>
           {% if form %}
            <div class="address">
-                  <form method="post">
-                      {% csrf_token %}
-                      <div class="input">
-                          <div class="field">
-                              {{ form.url }}
-                          </div>
-                          <div class="control">
-                              <button type="submit" class="button is-info" autofocus>
-                                  run report
-                              </button>
-                          </div>
+              <form method="post">
+                {% csrf_token %}
+                <div class="input-wrapper">
+                  <div class="input">
+                      <div class="field">
+                          {{ form.url }}
                       </div>
-                  </form>
-              </div>
+                      <div class="control">
+                          <button type="submit" class="button is-info" autofocus>
+                              run report
+                          </button>
+                      </div>
+                </div>
+              </form>
+            </div>
+        </div>
           {% endif %}
       </div>
       <div class="reports">

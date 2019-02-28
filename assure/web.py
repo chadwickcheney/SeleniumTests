@@ -130,7 +130,7 @@ class Web:
             debug.press(feed=str(Exception))
 
     def get_all_elements_on_page(self):
-        elements = self.driver.find_elements_by_xpath("//*[not(*)]")
+        elements = self.driver.find_elements_by_xpath("//*[not(*)]")[:25]
         for element in elements:
             try:
                 self.scroll_element_view(element)

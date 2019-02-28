@@ -1,14 +1,17 @@
 body{
-  max-width: 750px;
-  margin: auto;
-  background-color: #e5e5e5;
+  background-color: #fff;
   font-family: "Courier New";
 }
 
 .content{
+  max-width: 750px;
+  margin: auto;
   background-color: #fff;
   padding: 15px;
   align-items: center;
+  justify-content: space-around;
+  display: flex;
+  flex-direction: column;
 }
 
 /*Navbar*/
@@ -72,7 +75,7 @@ body{
 
 .input {
   display: flex;
-  width: 500px;
+  width: 300px;
 }
 
 .row{
