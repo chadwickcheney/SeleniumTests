@@ -15,6 +15,9 @@ body{
 }
 
 /*Navbar*/
+.navbar{
+}
+
 .navbar ul {
   list-style-type: none;
   margin: 0;
@@ -35,8 +38,8 @@ body{
   text-decoration: none;
 }
 `
-.navbar li, .navbar a:hover {
-  background-color: #111;
+.navbar li:hover{
+  background-color: #117bff;
 }
 
 .navbar h1{
@@ -75,20 +78,23 @@ body{
 
 .input {
   display: flex;
-  width: 300px;
 }
 
 .row{
   display: flex;
+  padding: 10px;
+
+  button{
+
+  }
 }
 
 .left{
-  width: 65%;
+  width: 75%;
 }
 
 .right{
-  width: 35%;
-  float: right;
+  width: 25%;
 }
 
 .results h1{
