@@ -1,6 +1,9 @@
 from . import debug
 import time
+import random
 from abc import ABCMeta, abstractmethod
+from selenium.common.exceptions import StaleElementReferenceException
+from selenium.webdriver.common.action_chains import ActionChains
 
 class Site:
     def __init__(self,driver,debug,tier,webster):
@@ -59,8 +62,17 @@ class Site:
         controlledchaoshair=ControlledChaosHair(self.driver,dictionary)
         return controlledchaoshair.response_dictionary
 
-    def beardedgoat_modal_exists(self, driver):
-        pass
+    def beardedgoat_modal_exists(self):
+        dictionary={
+                'email_location_method':self.driver.find_element_by_xpath,
+                'email_element_identifier':'/html/body/div[3]/div/div/div/div/div/div[2]/div/div/input',
+                'email_element_submit_method':self.driver.find_element_by_xpath,
+                'email_element_submit_identifier':'/html/body/div[3]/div/div/div/div/div/div[3]/div/button',
+                'modal_close_method':self.driver.find_element_by_xpath,
+                'modal_close_identifier':'privy-dismiss-content',
+            }
+        beardedgoat=BeardedGoat(self.driver,dictionary)
+        return beardedgoat.response_dictionary
 
 #MODAL ABSTRACT class
 class AbstractModalFunctionality:
@@ -79,7 +91,6 @@ class AbstractModalFunctionality:
 
     @abstractmethod
     def act(self):
-        print("On Abstract Function {}".format(self.act.__name__))
         for m in self.response_list:
             var = m()
             self.response_dictionary.update({m.__name__:var})
@@ -88,18 +99,20 @@ class AbstractModalFunctionality:
 
     @abstractmethod
     def activate(self):
-        print("On Abstract Function {}".format(self.activate.__name__))
         time.sleep(2)
         return True
 
     @abstractmethod
     def exists(self):
-        print("On Abstract Function {}".format(self.exists.__name__))
-        return bool(self.dictionary['email_location_method'](self.dictionary['email_element_identifier']))
+        try:
+            return bool(self.dictionary['email_location_method'](self.dictionary['email_element_identifier']))
+        except:
+            time.sleep(1)
+            input('>>>')
+            return False
 
     @abstractmethod
     def email_keys(self):
-        print("On Abstract Function {}".format(self.email_keys.__name__))
         self.dictionary['email_location_method'](self.dictionary['email_element_identifier']).send_keys('john@gmail.com')
         if self.dictionary['email_location_method'](self.dictionary['email_element_identifier']).get_attribute('value'):
             return True
@@ -108,7 +121,6 @@ class AbstractModalFunctionality:
 
     @abstractmethod
     def email_submit(self):
-        print("On Abstract Function {}".format(self.email_submit.__name__))
         e = self.dictionary['email_element_submit_method'](self.dictionary['email_element_submit_identifier']).click()
         if e:
             return True
@@ -116,7 +128,6 @@ class AbstractModalFunctionality:
 
     @abstractmethod
     def close(self):
-        print("On Abstract Function {}".format(self.close.__name__))
         e = self.dictionary['modal_close_method'](self.dictionary['modal_close_identifier']).click()
         if e:
             return True
@@ -138,28 +149,80 @@ class ControlledChaosHair(AbstractModalFunctionality):
         self.act()
 
     def act(self):
-        print("On Function {}".format(self.act.__name__))
-        super().act()
+        return super().act()
 
     def activate(self):
-        print("On Function {}".format(self.activate.__name__))
-        super().activate()
+        return super().activate()
 
     def exists(self):
-        print("On Function {}".format(self.exists.__name__))
-        super().exists()
+        return super().exists()
 
     def email_keys(self):
-        print("On Function {}".format(self.email_keys.__name__))
-        super().email_keys()
+        return super().email_keys()
 
     def email_submit(self):
-        print("On Function {}".format(self.email_submit.__name__))
-        super().email_submit()
+        return super().email_submit()
 
     def close(self):
-        print("On Function {}".format(self.close.__name__))
-        super().close()
+        return super().close()
+
+class BeardedGoat(AbstractModalFunctionality):
+    def __init__(self,driver,dictionary):
+        self.driver=driver
+        self.dictionary=dictionary
+        self.response_dictionary={}
+        self.response_list=[
+                self.activate,
+                self.exists,
+                self.email_keys,
+                self.email_submit,
+                self.close,
+            ]
+        self.act()
+
+    def act(self):
+        return super().act()
+
+    def activate(self):
+        email_element=False
+        time.sleep(4)
+        elements = self.driver.find_elements_by_xpath('.//*')
+        for element in elements:
+            try:
+                time.sleep(int(random.randint(0,10)/100))
+                self.driver.execute_script("return arguments[0].scrollIntoView(true);", element)
+            except StaleElementReferenceException as Exception:
+                pass
+
+        self.driver.execute_script("return arguments[0].scrollIntoView(true);", self.driver.find_element_by_tag_name('body'))
+        time.sleep(4)
+        try:
+            email_element = bool(self.dictionary['email_location_method'](self.dictionary['email_element_identifier']))
+        except:
+            try:
+                elements = self.driver.find_elements_by_class_name('col')
+                for element in elements:
+                    try:
+                        hover = ActionChains(self.driver).move_to_element(element)
+                        hover.perform()
+                    except:
+                        pass
+                email_element = bool(self.dictionary['email_location_method'](self.dictionary['email_element_identifier']))
+            except:
+                email_element=False
+        return email_element
+
+    def exists(self):
+        return super().exists()
+
+    def email_keys(self):
+        return super().email_keys()
+
+    def email_submit(self):
+        return super().email_submit()
+
+    def close(self):
+        return super().close()
 
 
 

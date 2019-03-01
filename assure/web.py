@@ -16,7 +16,7 @@ import time
 from pprint import pprint
 from . import html_element
 from . import sites
-
+#Test commit
 class Web:
     def __init__(self,tier,webster,debug):
         #local variables
@@ -130,8 +130,14 @@ class Web:
             debug.press(feed=str(Exception))
 
     def get_all_elements_on_page(self):
-        elements = self.driver.find_elements_by_xpath("//*[not(*)]")[:25]
+        print("capturing elements")
+        elements = self.driver.find_elements_by_xpath("//*[not(*)]")
+        num=0
+        print(len(elements))
         for element in elements:
+            num+=1
+            i=float((num/len(elements))*100)
+            print('Scanning Elements [%d%%]\r'%i, end="")
             try:
                 self.scroll_element_view(element)
                 if not element.tag_name in self.avoid_tag_names:

@@ -40,7 +40,10 @@ class Main:
             return creed_dictionary
 
     def quit_driver(self):
-        self.web.driver.quit()
-        
+        try:
+            self.web.driver.quit()
+        except:
+            pass
+
     def debug_error(self,error):
         self.debug.press(feed=error,error=True,tier=0)

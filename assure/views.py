@@ -91,7 +91,10 @@ class DetailView(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         site=Site.objects.get(url__contains=kwargs['object'])
-        pilot = Pilot.objects.get(site=site)
+        try:
+            pilot = Pilot.objects.get(site=site)
+        except Pilot.DoesNotExist:
+            pilot=None
         context['latest_report'] = pilot
         context.update({'form':self.form_class})
         return context
