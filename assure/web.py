@@ -146,7 +146,6 @@ class Web:
                 pass
             except NoSuchElementException:
                 pass
-        self.linked_list_all_elements.print_specifications()
 
     def is_retrieved_value_ambigious(self, retrieved_value):
         #verify that its not 100% or auto, etc

@@ -126,6 +126,7 @@
 
           <br><br>
 
+          {% if latest_report.homepage_json.items %}
             <div class="table100 ver5 m-b-110">
               <table class="table101" data-veritabl="ver5">
                 <caption class"table100">Homepage Test Results</caption>
@@ -155,6 +156,9 @@
                 {% endfor %}
               </table>
             </div>
+          {% else %}
+            <a>Nothing here</a>
+          {% endif %}
 
       {% else %}
         <p>No pilot reports</p>

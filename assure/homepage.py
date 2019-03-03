@@ -14,7 +14,7 @@ class HomePage:
 
     def unit_test(self):
         print("Homepage Tests")
-        tests=[self.product_links_are_successful,self.has_javascript_fallback]
+        tests=[self.product_links_are_successful, self.get_brands_colors]
         for test in tests:
             self.debug.press(feed='Running test {}'.format(test.__name__),tier=self.tier+1)
             self.test_dictionary.update({test.__name__:test()})
@@ -22,8 +22,6 @@ class HomePage:
 
     def product_links_are_successful(self):
         elements_product_links_false=[]
-        print(self.web.linked_list_all_elements.get_size())
-        input('>>>')
         node = self.web.linked_list_all_elements.cur_node
         while node:
             try:

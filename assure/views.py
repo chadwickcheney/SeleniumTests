@@ -118,6 +118,7 @@ class DetailView(generic.DetailView):
                     pilot.pub_date=datetime.datetime.now()
                     pilot.viewport_json=dictionary['viewport']
                     pilot.site_json=dictionary['site']
+                    pilot.homepage_json=dictionary['homepage']
                     pilot.save()
                 except Pilot.DoesNotExist:
                     try:

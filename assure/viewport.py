@@ -27,7 +27,6 @@ class ViewPort:
         tests = [self.is_element_obstructed,self.is_element_text_blocked]
         while node:
             for test in tests:
-                self.web.linked_list_all_elements.print_specifications(node)
                 if test(node):
                     value=None
                     key=node.element_dictionary['attribute_dictionary']['outerHTML'][:50]
