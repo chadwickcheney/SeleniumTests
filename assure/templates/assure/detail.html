@@ -15,6 +15,7 @@
     <div class="content">
       <div class="details">
           {% if latest_report %}
+
           <div class="row">
             <div class="left">
               <p>pilot report for {{ latest_report.site }}</p>
@@ -36,7 +37,8 @@
               {% endif %}
             </div>
           </div>
-          {% if latest_report.viewport_json.items %}
+
+          <!--{% if latest_report.viewport_json.items %}
           <div class="table100 ver5 m-b-110">
             <table class="table101" data-veritabl="ver5">
               <caption class="table100">Viewport Test Results</caption>
@@ -54,8 +56,44 @@
         </div>
           {% else %}
             <p>No mobile viewport issues</p>
-          {% endif %}
+          {% endif %}-->
+
+
+          <br><br>
+
+            <div class="table100 ver5 m-b-110">
+              <table class="table101" data-veritabl="ver5">
+                <caption class"table100">Viewport Test Results</caption>
+                <tr class="row100">
+                  <th>Test</th>
+                  <th>Status</th>
+                </tr>
+                {% for key, value in latest_report.viewport_json.items %}
+                <tr class="row100">
+                  <td class="column100"><code>{{ key }}</code></td>
+                  {% if value.items %}
+                  <td>
+                    <table>
+                      {% for subkey, subvalue in value.items %}
+                      <tr>
+                        <td class="column100">{{ subkey }}</td>
+                        <td class="column100">{{ subvalue }}</td>
+                      </tr>
+                      {% endfor %}
+                    </table>
+                  </td>
+                  {% else %}
+                  <td class="column100">{{ value }}</td>
+                  {% endif %}
+
+                </tr>
+                {% endfor %}
+              </table>
+            </div>
+
+
         <br><br>
+
           <div class="table100 ver5 m-b-110">
             <table class="table101" data-veritabl="ver5">
               <caption class"table100">Site Test Results</caption>
@@ -63,10 +101,9 @@
                 <th>Test</th>
                 <th>Status</th>
               </tr>
-          {% for key, value in latest_report.site_json.items %}
+              {% for key, value in latest_report.site_json.items %}
               <tr class="row100">
                 <td class="column100"><code>{{ key }}</code></td>
-
                 {% if value.items %}
                 <td>
                   <table>
@@ -84,8 +121,41 @@
 
               </tr>
               {% endfor %}
-        </table>
-      </div>
+            </table>
+          </div>
+
+          <br><br>
+
+            <div class="table100 ver5 m-b-110">
+              <table class="table101" data-veritabl="ver5">
+                <caption class"table100">Homepage Test Results</caption>
+                <tr class="row100">
+                  <th>Test</th>
+                  <th>Status</th>
+                </tr>
+                {% for key, value in latest_report.homepage_json.items %}
+                <tr class="row100">
+                  <td class="column100"><code>{{ key }}</code></td>
+                  {% if value.items %}
+                  <td>
+                    <table>
+                      {% for subkey, subvalue in value.items %}
+                      <tr>
+                        <td class="column100">{{ subkey }}</td>
+                        <td class="column100">{{ subvalue }}</td>
+                      </tr>
+                      {% endfor %}
+                    </table>
+                  </td>
+                  {% else %}
+                  <td class="column100">{{ value }}</td>
+                  {% endif %}
+
+                </tr>
+                {% endfor %}
+              </table>
+            </div>
+
       {% else %}
         <p>No pilot reports</p>
       {% endif %}

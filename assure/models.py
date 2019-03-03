@@ -22,6 +22,7 @@ class Pilot(models.Model):
 
     viewport_json = JSONField(default=[])
     site_json = JSONField(default=[])
+    homepage_json = JSONField(default=[])
 
     def __str__(self):
         return ("tests object")

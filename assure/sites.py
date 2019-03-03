@@ -22,7 +22,7 @@ class Site:
     #COMMENCE TEST
     def unit_test(self):
         print("web tests")
-        tests = [self.check_modal_functionality,self.viewport_meta_tag_exists,self.facebook_pixel_exists]
+        tests = [self.check_modal_functionality,self.viewport_meta_tag_exists,self.facebook_pixel_exists,self.has_javascript_fallback]
         for test in tests:
             self.debug.press(feed='Running test {}'.format(test.__name__),tier=self.tier+1)
             self.test_dictionary.update({test.__name__:test()})
@@ -42,6 +42,12 @@ class Site:
         elements = self.driver.find_elements_by_xpath("//*[not(*)]")
         for element in elements:
             if 'https://connect.facebook.net/' in str(element.get_attribute('outerHTML')):
+                return True
+        return False
+
+    def has_javascript_fallback(self):
+        for element in self.driver.find_elements_by_xpath('.//*'):
+            if element.tag_name=='noscript':
                 return True
         return False
 

@@ -7,6 +7,7 @@ from . import response_behavior as rb
 import sys
 import os
 from . import sites
+from . import homepage
 
 class Main:
     def __init__(self, webster, viewport_num=2):
@@ -33,9 +34,14 @@ class Main:
             self.viewport=vp.ViewPort(tier=self.tier,webster=self.webster,debug=self.debug,web=self.web)
             self.viewport_tests=self.viewport.unit_test()
 
+            #Homepage Tests
+            self.homepage=homepage.HomePage(self.web,self.debug,self.tier+1,self.webster)
+            self.homepage_tests=self.homepage.unit_test()
+
             creed_dictionary={}
             creed_dictionary.update({"site":self.site_tests})
             creed_dictionary.update({"viewport":self.viewport_tests})
+            creed_dictionary.update({"homepage":self.homepage_tests})
             pprint(creed_dictionary)
             return creed_dictionary
 

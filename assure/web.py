@@ -16,7 +16,7 @@ import time
 from pprint import pprint
 from . import html_element
 from . import sites
-#Test commit
+
 class Web:
     def __init__(self,tier,webster,debug):
         #local variables
@@ -33,7 +33,7 @@ class Web:
         self.avoid_tag_names=["head","html","body","meta","style","link","script","title","noscript","path","polygon"]#what is noscript and should I worry about it
         self.break_tag_names=["head","html","body","meta"]#what is noscript and should I worry about it
         #("tag",find_if_in_parents)
-        self.css_grab_tags_tuples=(("color",False),("height",False),("display",False),("overflow",True))
+        self.css_grab_tags_tuples=(("background-color",False),("color",False),("height",False),("display",False),("overflow",True))
         self.css_grab_tags_break_tag={"overflow":"hidden"}
         self.attribute_grab_tags=["aria-expanded","aria-hidden","outerHTML","aria-labelledby"]
         self.ambigious_css_values=['100%','auto','inherited']
